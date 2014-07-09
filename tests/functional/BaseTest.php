@@ -12,9 +12,11 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
+require_once __DIR__ . '/../../Pages/IndexPageManager.php';
 class BaseTest extends WebDriverTestCase {
   
+  protected $pageObject = null;
+   
   public function testGetTitle() {
     $this->driver->get($this->getTestPath('index.html'));
     self::assertEquals(
@@ -25,73 +27,64 @@ class BaseTest extends WebDriverTestCase {
   
   public function testGetText() {
     $this->driver->get($this->getTestPath('index.html'));
-    self::assertEquals(
-      'Welcome to the facebook/php-webdriver testing page.',
-      $this->driver->findElement(WebDriverBy::id('welcome'))->getText()
+    $pageObject = new IndexPageManager($this->driver);
+	self::assertEquals(
+		'Welcome to the facebook/php-webdriver testing page.',
+		$pageObject->getElementText('welcome')
     );
   }
 
   public function testGetById() {
     $this->driver->get($this->getTestPath('index.html'));
-    self::assertEquals(
-      'Test by ID',
-      $this->driver->findElement(WebDriverBy::id('id_test'))->getText()
+	$pageObject = new IndexPageManager($this->driver);
+	self::assertEquals(
+		'Test by ID',
+		$pageObject->getElementById('id_test')
     );
   }
 
   public function testGetByClassName() {
     $this->driver->get($this->getTestPath('index.html'));
+	$pageObject = new IndexPageManager($this->driver);
     self::assertEquals(
-      'Test by Class',
-      $this->driver->findElement(WebDriverBy::className('test_class'))->getText()
+		'Test by Class',
+		$pageObject->getElementByClassName('test_class')
     );
   }
 
   public function testGetByCssSelector() {
     $this->driver->get($this->getTestPath('index.html'));
+	$pageObject = new IndexPageManager($this->driver);
     self::assertEquals(
-     'Test by Class',
-     $this->driver->findElement(WebDriverBy::cssSelector('.test_class'))->getText()
+		'Test by Class',
+		$pageObject->getElementByCssSelector('.test_class')
     );
   }
 
   public function testGetByLinkText() {
     $this->driver->get($this->getTestPath('index.html'));
+	$pageObject = new IndexPageManager($this->driver);
     self::assertEquals(
-      'Click here',
-      $this->driver->findElement(WebDriverBy::linkText('Click here'))->getText()
+		'Click here',
+		$pageObject->getElementByLinkText('Click here')
     );
   }
 
   public function testGetByName() {
     $this->driver->get($this->getTestPath('index.html'));
+	$pageObject = new IndexPageManager($this->driver);
     self::assertEquals(
-      'Test Value',
-      $this->driver->findElement(WebDriverBy::name('test_name'))->getAttribute('value')
+		'Test Value',
+		$pageObject->getElementByName('test_name')
     );
   }
 
   public function testGetByXpath() {
     $this->driver->get($this->getTestPath('index.html'));
-    self::assertEquals(
-      'Test Value',
-      $this->driver->findElement(WebDriverBy::xpath('//input[@name="test_name"]'))->getAttribute('value')
-    );
-  }
-
-  public function testGetByPartialLinkText() {
-    $this->driver->get($this->getTestPath('index.html'));
-    self::assertEquals(
-      'Click here',
-      $this->driver->findElement(WebDriverBy::partialLinkText('Click'))->getText()
-    );
-  }
-
-  public function testGetByTagName() {
-    $this->driver->get($this->getTestPath('index.html'));
-    self::assertEquals(
-      'Test Value',
-      $this->driver->findElement(WebDriverBy::tagName('input'))->getAttribute('value')
+    $pageObject = new IndexPageManager($this->driver);
+	self::assertEquals(
+		'Test Value',
+		$pageObject->getElementByXpath('test_name')
     );
   }
 }
